@@ -1,6 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface HeroSectionProps {
@@ -10,16 +10,24 @@ interface HeroSectionProps {
 export const HeroSection = ({ defaultValue = "" }: HeroSectionProps) => {
   const [searchQuery, setSearchQuery] = useState(defaultValue);
   const navigate = useNavigate();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setSearchQuery(defaultValue);
+  }, [defaultValue]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchQuery(value);
     
-    if (value.trim()) {
-      navigate(`/search?q=${encodeURIComponent(value)}`, { replace: true });
-    } else {
-      navigate('/', { replace: true });
-    }
+    // Use setTimeout to navigate without losing focus
+    setTimeout(() => {
+      if (value.trim()) {
+        navigate(`/search?q=${encodeURIComponent(value)}`, { replace: true });
+      } else {
+        navigate('/', { replace: true });
+      }
+    }, 0);
   };
 
   return (
@@ -31,6 +39,7 @@ export const HeroSection = ({ defaultValue = "" }: HeroSectionProps) => {
         <div className="relative max-w-2xl mx-auto">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground z-10" />
           <Input
+            ref={inputRef}
             type="text"
             placeholder="Search..."
             value={searchQuery}
