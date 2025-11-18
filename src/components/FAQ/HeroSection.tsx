@@ -14,6 +14,12 @@ export const HeroSection = ({ defaultValue = "" }: HeroSectionProps) => {
 
   useEffect(() => {
     setSearchQuery(defaultValue);
+    // Refocus input after navigation
+    if (defaultValue && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 0);
+    }
   }, [defaultValue]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
