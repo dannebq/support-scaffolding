@@ -1,6 +1,7 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { HeroSection } from "@/components/FAQ/HeroSection";
-import { ChevronRight } from "lucide-react";
+import { Breadcrumb } from "@/components/FAQ/Breadcrumb";
+import { allArticles } from "@/data/articles";
 
 // Article content data
 const articleContent: Record<string, {
@@ -516,18 +517,11 @@ export default function ArticlePage() {
     <div className="min-h-screen bg-background">
       <HeroSection />
       <div className="max-w-4xl mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-          <Link to="/" className="hover:text-primary transition-colors">
-            Home
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <Link to={`/category/${article.categoryId}`} className="hover:text-primary transition-colors">
-            {article.categoryTitle}
-          </Link>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground font-medium">{article.title}</span>
-        </div>
+        <Breadcrumb 
+          categoryTitle={article.categoryTitle} 
+          categoryId={article.categoryId}
+          articleTitle={article.title}
+        />
 
         {/* Article Content */}
         <article className="prose prose-slate max-w-none">
