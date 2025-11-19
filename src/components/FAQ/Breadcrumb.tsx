@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 interface BreadcrumbProps {
   categoryTitle: string;
   categoryId?: string;
+  subcategoryTitle?: string;
   articleTitle?: string;
 }
 
-export const Breadcrumb = ({ categoryTitle, categoryId, articleTitle }: BreadcrumbProps) => {
+export const Breadcrumb = ({ categoryTitle, categoryId, subcategoryTitle, articleTitle }: BreadcrumbProps) => {
   return (
     <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
       <Link to="/" className="hover:text-primary transition-colors">
@@ -19,6 +20,14 @@ export const Breadcrumb = ({ categoryTitle, categoryId, articleTitle }: Breadcru
           <Link to={`/category/${categoryId}`} className="hover:text-primary transition-colors">
             {categoryTitle}
           </Link>
+          {subcategoryTitle && (
+            <>
+              <ChevronRight className="h-4 w-4" />
+              <Link to={`/category/${categoryId}`} className="hover:text-primary transition-colors">
+                {subcategoryTitle}
+              </Link>
+            </>
+          )}
           <ChevronRight className="h-4 w-4" />
           <span className="text-foreground font-medium">{articleTitle}</span>
         </>
