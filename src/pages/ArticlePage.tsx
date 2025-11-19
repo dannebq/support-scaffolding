@@ -8,6 +8,7 @@ const articleContent: Record<string, {
   title: string;
   categoryId: string;
   categoryTitle: string;
+  subcategoryTitle?: string;
   content: string;
 }> = {
   "creating-first-account": {
@@ -123,14 +124,93 @@ You can personalize your dashboard by:
 - Use keyboard shortcuts (press ? to see all shortcuts)
 - Pin frequently used projects to the top
 - Set up notifications for important updates
-- Use the search bar (Cmd/Ctrl + K) for quick navigation
 
-## Need More Help?
+Need help? Contact our support team at support@example.com
+    `,
+  },
+  "5": {
+    title: "How to update payment methods",
+    categoryId: "billing",
+    categoryTitle: "Billing",
+    subcategoryTitle: "Payments",
+    content: `
+# How to Update Payment Methods
 
-Check out these related articles:
-- Setting Up Your User Profile
-- Inviting Team Members
-- Quick Start Guide for New Users
+Keeping your payment information up to date ensures uninterrupted service. Here's how to manage your payment methods.
+
+## Accessing Payment Settings
+
+Navigate to your account settings and select the Billing section. From there, click on "Payment Methods" to view all saved payment options.
+
+## Adding a New Payment Method
+
+To add a new payment method:
+
+1. Click the "Add Payment Method" button
+2. Select your preferred payment type:
+   - **Credit Card**: Visa, Mastercard, American Express, or Discover
+   - **Debit Card**: Most major debit cards accepted
+   - **Bank Account**: Direct bank transfers (ACH)
+3. Enter your payment details securely
+4. Click "Save" to add the method to your account
+
+## Updating an Existing Payment Method
+
+If you need to update card details or expiration dates:
+
+1. Locate the payment method in your list
+2. Click the "Edit" icon next to the payment method
+3. Update the necessary information
+4. Confirm your changes by clicking "Update"
+
+## Setting a Default Payment Method
+
+You can designate one payment method as your default:
+
+- Click "Set as Default" next to your preferred payment method
+- All future charges will automatically use this method
+- You can change your default payment method at any time
+
+## Removing a Payment Method
+
+To remove an outdated or unused payment method:
+
+1. Find the payment method you want to remove
+2. Click the "Remove" button
+3. Confirm the removal in the dialog box
+
+**Note**: You cannot remove your default payment method while you have an active subscription. Set a different method as default first.
+
+## Common Issues
+
+**Payment method won't save?**
+- Verify all required fields are filled correctly
+- Check that your card hasn't expired
+- Ensure your billing address matches your card records
+- Try a different browser if the issue persists
+
+**Card declined?**
+- Contact your bank to ensure they're not blocking the transaction
+- Verify you have sufficient funds or credit available
+- Check if your card is enabled for online transactions
+- Make sure the card details are entered correctly
+
+## Security Information
+
+All payment information is:
+- Encrypted using industry-standard SSL technology
+- Processed through PCI-compliant payment processors
+- Never stored on our servers in plain text
+- Protected by multiple layers of security
+
+## Need Assistance?
+
+If you encounter any issues updating your payment methods:
+- Contact our billing support team at billing@example.com
+- Use the live chat feature in your dashboard
+- Call our support line at 1-800-SUPPORT
+
+We're here to help ensure your payment process is smooth and secure!
     `,
   },
   "setting-up-profile": {
@@ -520,6 +600,7 @@ export default function ArticlePage() {
         <Breadcrumb 
           categoryTitle={article.categoryTitle} 
           categoryId={article.categoryId}
+          subcategoryTitle={article.subcategoryTitle}
           articleTitle={article.title}
         />
 
