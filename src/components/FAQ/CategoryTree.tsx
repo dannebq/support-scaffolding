@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronRight, ChevronDown } from "lucide-react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { categoryData } from "@/data/categoryData";
 import {
   Collapsible,
@@ -9,8 +9,7 @@ import {
 } from "@/components/ui/collapsible";
 
 export const CategoryTree = () => {
-  const location = useLocation();
-  const { categoryId, articleId } = useParams();
+  const { categoryId } = useParams();
   const [openCategories, setOpenCategories] = useState<Record<string, boolean>>({
     [categoryId || ""]: true,
   });
@@ -22,8 +21,8 @@ export const CategoryTree = () => {
     }));
   };
 
-  const isArticleActive = (catId: string, artId: string) => {
-    return categoryId === catId && articleId === artId;
+  const isCategoryActive = (catId: string) => {
+    return categoryId === catId;
   };
 
   return (
@@ -34,6 +33,7 @@ export const CategoryTree = () => {
         {Object.entries(categoryData).map(([catId, category]) => {
           const isOpen = openCategories[catId];
           const hasSubcategories = !!category.subcategories;
+          const isActive = isCategoryActive(catId);
           
           return (
             <Collapsible
@@ -42,55 +42,45 @@ export const CategoryTree = () => {
               onOpenChange={() => toggleCategory(catId)}
             >
               <div className="space-y-1">
-                <CollapsibleTrigger className="flex items-center gap-2 w-full p-2 rounded-lg hover:bg-muted/50 transition-colors text-left">
-                  {isOpen ? (
-                    <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                  )}
-                  <span className="font-semibold text-foreground">{category.title}</span>
-                </CollapsibleTrigger>
+                <div className="flex items-center gap-2">
+                  <CollapsibleTrigger className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                    {hasSubcategories && (
+                      isOpen ? (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
+                      )
+                    )}
+                  </CollapsibleTrigger>
+                  <Link
+                    to={`/category/${catId}`}
+                    className={`flex-1 p-2 rounded-lg hover:bg-muted/50 transition-colors ${
+                      isActive
+                        ? "bg-primary/10 text-primary font-semibold"
+                        : "font-semibold text-foreground"
+                    }`}
+                  >
+                    {category.title}
+                  </Link>
+                </div>
 
-                <CollapsibleContent className="ml-6 space-y-1">
-                  {hasSubcategories ? (
-                    category.subcategories!.map((subcategory) => (
-                      <div key={subcategory.title} className="space-y-1">
-                        <div className="text-sm font-medium text-muted-foreground py-1 px-2">
-                          {subcategory.title}
-                        </div>
-                        <div className="ml-2 space-y-1">
-                          {subcategory.articles.map((article) => (
-                            <Link
-                              key={article.id}
-                              to={`/category/${catId}/article/${article.id}`}
-                              className={`block text-sm py-1.5 px-2 rounded hover:bg-muted/50 transition-colors ${
-                                isArticleActive(catId, article.id)
-                                  ? "bg-primary/10 text-primary font-medium"
-                                  : "text-foreground"
-                              }`}
-                            >
-                              {article.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    category.articles?.map((article) => (
+                {hasSubcategories && (
+                  <CollapsibleContent className="ml-6 space-y-1">
+                    {category.subcategories!.map((subcategory) => (
                       <Link
-                        key={article.id}
-                        to={`/category/${catId}/article/${article.id}`}
+                        key={subcategory.title}
+                        to={`/category/${catId}`}
                         className={`block text-sm py-1.5 px-2 rounded hover:bg-muted/50 transition-colors ${
-                          isArticleActive(catId, article.id)
-                            ? "bg-primary/10 text-primary font-medium"
-                            : "text-foreground"
+                          isActive
+                            ? "text-primary font-medium"
+                            : "text-muted-foreground"
                         }`}
                       >
-                        {article.title}
+                        {subcategory.title}
                       </Link>
-                    ))
-                  )}
-                </CollapsibleContent>
+                    ))}
+                  </CollapsibleContent>
+                )}
               </div>
             </Collapsible>
           );
