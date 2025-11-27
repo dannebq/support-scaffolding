@@ -42,16 +42,18 @@ export const CategoryTree = () => {
               onOpenChange={() => toggleCategory(catId)}
             >
               <div className="space-y-1">
-                <div className="flex items-center gap-2">
-                  <CollapsibleTrigger className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted/50 transition-colors">
+                <div className="flex items-center">
+                  <div className="w-8 flex items-center justify-start">
                     {hasSubcategories && (
-                      isOpen ? (
-                        <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0" />
-                      ) : (
-                        <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />
-                      )
+                      <CollapsibleTrigger className="p-1 rounded hover:bg-muted/50 transition-colors">
+                        {isOpen ? (
+                          <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                        ) : (
+                          <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                        )}
+                      </CollapsibleTrigger>
                     )}
-                  </CollapsibleTrigger>
+                  </div>
                   <Link
                     to={`/category/${catId}`}
                     className={`flex-1 p-2 rounded-lg hover:bg-muted/50 transition-colors ${
@@ -65,7 +67,7 @@ export const CategoryTree = () => {
                 </div>
 
                 {hasSubcategories && (
-                  <CollapsibleContent className="ml-6 space-y-1">
+                  <CollapsibleContent className="ml-8 space-y-1">
                     {category.subcategories!.map((subcategory) => (
                       <Link
                         key={subcategory.title}
