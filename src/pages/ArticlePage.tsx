@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { HeroSection } from "@/components/FAQ/HeroSection";
 import { Breadcrumb } from "@/components/FAQ/Breadcrumb";
+import { CategoryTree } from "@/components/FAQ/CategoryTree";
 import { allArticles } from "@/data/articles";
 
 // Article content data
@@ -596,40 +597,43 @@ export default function ArticlePage() {
   return (
     <div className="min-h-screen bg-background">
       <HeroSection />
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <Breadcrumb 
-          categoryTitle={article.categoryTitle} 
-          categoryId={article.categoryId}
-          subcategoryTitle={article.subcategoryTitle}
-          articleTitle={article.title}
-        />
+      <div className="flex">
+        <CategoryTree />
+        <div className="flex-1 max-w-4xl mx-auto px-4 py-8">
+          <Breadcrumb 
+            categoryTitle={article.categoryTitle} 
+            categoryId={article.categoryId}
+            subcategoryTitle={article.subcategoryTitle}
+            articleTitle={article.title}
+          />
 
-        {/* Article Content */}
-        <article className="prose prose-slate max-w-none">
-          <div className="bg-card rounded-2xl p-8 shadow-sm border border-border">
-            <div className="whitespace-pre-wrap text-foreground leading-relaxed">
-              {article.content.split('\n').map((line, index) => {
-                if (line.startsWith('# ')) {
-                  return <h1 key={index} className="text-4xl font-bold mb-6 mt-8 first:mt-0">{line.replace('# ', '')}</h1>;
-                } else if (line.startsWith('## ')) {
-                  return <h2 key={index} className="text-2xl font-semibold mb-4 mt-8">{line.replace('## ', '')}</h2>;
-                } else if (line.startsWith('### ')) {
-                  return <h3 key={index} className="text-xl font-semibold mb-3 mt-6">{line.replace('### ', '')}</h3>;
-                } else if (line.startsWith('- ')) {
-                  return <li key={index} className="ml-6 mb-2">{line.replace('- ', '')}</li>;
-                } else if (line.startsWith('**') && line.endsWith('**')) {
-                  return <p key={index} className="font-bold mb-2">{line.replace(/\*\*/g, '')}</p>;
-                } else if (line.match(/^\d+\./)) {
-                  return <li key={index} className="ml-6 mb-2 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
-                } else if (line.trim() === '') {
-                  return <div key={index} className="h-4" />;
-                } else {
-                  return <p key={index} className="mb-4">{line}</p>;
-                }
-              })}
+          {/* Article Content */}
+          <article className="prose prose-slate max-w-none">
+            <div className="bg-card rounded-2xl p-8 shadow-sm border border-border">
+              <div className="whitespace-pre-wrap text-foreground leading-relaxed">
+                {article.content.split('\n').map((line, index) => {
+                  if (line.startsWith('# ')) {
+                    return <h1 key={index} className="text-4xl font-bold mb-6 mt-8 first:mt-0">{line.replace('# ', '')}</h1>;
+                  } else if (line.startsWith('## ')) {
+                    return <h2 key={index} className="text-2xl font-semibold mb-4 mt-8">{line.replace('## ', '')}</h2>;
+                  } else if (line.startsWith('### ')) {
+                    return <h3 key={index} className="text-xl font-semibold mb-3 mt-6">{line.replace('### ', '')}</h3>;
+                  } else if (line.startsWith('- ')) {
+                    return <li key={index} className="ml-6 mb-2">{line.replace('- ', '')}</li>;
+                  } else if (line.startsWith('**') && line.endsWith('**')) {
+                    return <p key={index} className="font-bold mb-2">{line.replace(/\*\*/g, '')}</p>;
+                  } else if (line.match(/^\d+\./)) {
+                    return <li key={index} className="ml-6 mb-2 list-decimal">{line.replace(/^\d+\.\s/, '')}</li>;
+                  } else if (line.trim() === '') {
+                    return <div key={index} className="h-4" />;
+                  } else {
+                    return <p key={index} className="mb-4">{line}</p>;
+                  }
+                })}
+              </div>
             </div>
-          </div>
-        </article>
+          </article>
+        </div>
       </div>
     </div>
   );
