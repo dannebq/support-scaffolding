@@ -68,19 +68,22 @@ export const CategoryTree = () => {
 
                 {hasSubcategories && (
                   <CollapsibleContent className="ml-8 space-y-1">
-                    {category.subcategories!.map((subcategory) => (
-                      <Link
-                        key={subcategory.title}
-                        to={`/category/${catId}`}
-                        className={`block text-sm py-1.5 px-2 rounded hover:bg-muted/50 transition-colors ${
-                          isActive
-                            ? "text-primary font-medium"
-                            : "text-muted-foreground"
-                        }`}
-                      >
-                        {subcategory.title}
-                      </Link>
-                    ))}
+                    {category.subcategories!.map((subcategory) => {
+                      const subcategoryId = subcategory.title.toLowerCase().replace(/\s+/g, '-');
+                      return (
+                        <Link
+                          key={subcategory.title}
+                          to={`/category/${catId}#${subcategoryId}`}
+                          className={`block text-sm py-1.5 px-2 rounded hover:bg-muted/50 transition-colors ${
+                            isActive
+                              ? "text-primary font-medium"
+                              : "text-muted-foreground"
+                          }`}
+                        >
+                          {subcategory.title}
+                        </Link>
+                      );
+                    })}
                   </CollapsibleContent>
                 )}
               </div>
