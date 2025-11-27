@@ -13,8 +13,10 @@ interface ArticleListProps {
 }
 
 export const ArticleList = ({ articles, subcategoryTitle, categoryId }: ArticleListProps) => {
+  const subcategoryId = subcategoryTitle ? subcategoryTitle.toLowerCase().replace(/\s+/g, '-') : undefined;
+  
   return (
-    <div className="mb-12">
+    <div className="mb-12" id={subcategoryId}>
       {subcategoryTitle && (
         <h3 className="text-2xl font-semibold text-foreground mb-6">{subcategoryTitle}</h3>
       )}

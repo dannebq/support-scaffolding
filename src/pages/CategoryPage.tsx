@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { HeroSection } from "@/components/FAQ/HeroSection";
 import { Breadcrumb } from "@/components/FAQ/Breadcrumb";
 import { ArticleList } from "@/components/FAQ/ArticleList";
@@ -7,7 +8,20 @@ import { categoryData } from "@/data/categoryData";
 
 export default function CategoryPage() {
   const { categoryId } = useParams<{ categoryId: string }>();
+  const location = useLocation();
   const category = categoryId ? categoryData[categoryId] : null;
+
+  useEffect(() => {
+    if (location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   if (!category) {
     return (
